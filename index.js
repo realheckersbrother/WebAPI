@@ -15,13 +15,17 @@ async function getapi() {
         if (!res.ok) throw new Error(`GitHub responded with status ${res.status}`);
         
         const textData = await res.text();
-        url = textData.trim();
+        const newUrl = textData.trim();
         
-        console.log(`Url: ${url}`);
+        if (newUrl !== url) {
+            url = newUrl;
+            console.log(`Url updated: ${url}`);
+        }
     } catch (err) {
         console.error("Failed to get url:", err.message);
     }
 }
+
 app.get("/", (req, res) => {
     res.send("Existing: /beautify");
 });
@@ -29,6 +33,8 @@ app.get("/", (req, res) => {
 app.post("/beautify", async (req, res) => {
     const code = req.body.code;
     if (!code) return res.status(400).send("No code provided");
+
+    await getapi();
 
     if (!url) {
         return res.status(500).json({ 
