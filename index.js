@@ -1,10 +1,9 @@
 const express = require("express");
 const app = express();
 const port = 3002;
+let API_URL = "https://bean-engaging-fathers-lips.trycloudflare.com";
 
 app.use(express.json());
-
-let API_URL = "https://bean-engaging-fathers-lips.trycloudflare.com";
 
 app.get("/", (req, res) => {
     res.send("Existing: /beautify");
