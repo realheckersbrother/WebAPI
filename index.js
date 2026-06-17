@@ -9,6 +9,7 @@ app.use(express.json());
 let url = "";
 
 async function getapi() {
+    console.log("Getting new api")
     try {
         const res = await fetch(`https://raw.githubusercontent.com/realheckersbrother/WebAPI/main/API.txt?t=${Date.now()}`);
         
