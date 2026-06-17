@@ -26,10 +26,13 @@ async function getapi() {
     }
 }
 
-setInterval(getapi, 60000);
-
 app.get("/", (req, res) => {
     res.send("Existing: /beautify");
+});
+
+app.get("/update", (req, res) => {    
+    await getapi();
+    res.send("Updated");
 });
 
 app.post("/beautify", async (req, res) => {
