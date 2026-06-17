@@ -11,7 +11,13 @@ let url = "";
 async function getapi() {
     console.log("Getting new api")
     try {
-        const res = await fetch(`https://raw.githubusercontent.com/realheckersbrother/WebAPI/main/API.txt?t=${Date.now()}`);
+        const res = await fetch(`https://raw.githubusercontent.com/realheckersbrother/WebAPI/main/API.txt?t=${Date.now()}`, {
+            headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache',
+                'Expires': '0'
+            }
+        });
         
         if (!res.ok) throw new Error(`GitHub responded with status ${res.status}`);
         
