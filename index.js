@@ -1,9 +1,15 @@
 const express = require("express");
 const app = express();
 const port = 3002;
-let API_URL = "https://periodic-lightbox-this-levels.trycloudflare.com";
 
 app.use(express.json());
+
+let url = "";
+
+async function getapi() {
+    const res = await fetch("https://raw.githubusercontent.com/realheckersbrother/WebAPI/main/API.txt");
+    url = (await res.text()).trim();
+}
 
 app.get("/", (req, res) => {
     res.send("Existing: /beautify");
@@ -14,7 +20,7 @@ app.post("/beautify", async (req, res) => {
     if (!code) return res.status(400).send("No code");
 
     try {
-        const response = await fetch(`${API_URL}/beautify`, {
+        const response = await fetch(`${url}/beautify`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ code })
@@ -24,10 +30,16 @@ app.post("/beautify", async (req, res) => {
         res.json(data);
 
     } catch (err) {
-        res.status(500).json({ error: "API request failed", details: err.message });
+        res.status(500).json({ error: "request failed", details: err.message });
     }
 });
 
-app.listen(port, () => {
-    console.log(`Luau API running on port ${port}`);
-});
+async function start() {
+    await loadUrl();
+        
+    app.listen(port, () => {
+        console.log(`Luau API running on port ${port}`);
+    });
+}
+
+start();
