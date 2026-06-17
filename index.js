@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const port = 3002;
-let API_URL = "https://bean-engaging-fathers-lips.trycloudflare.com";
+let API_URL = "https://periodic-lightbox-this-levels.trycloudflare.com";
 
 app.use(express.json());
 
