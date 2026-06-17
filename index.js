@@ -9,15 +9,8 @@ app.use(express.json());
 let url = "";
 
 async function getapi() {
-    console.log("Getting new api")
     try {
-        const res = await fetch(`https://raw.githubusercontent.com/realheckersbrother/WebAPI/main/API.txt?t=${Date.now()}`, {
-            headers: {
-                'Cache-Control': 'no-cache, no-store, must-revalidate',
-                'Pragma': 'no-cache',
-                'Expires': '0'
-            }
-        });
+        const res = await fetch(`https://raw.githubusercontent.com/realheckersbrother/WebAPI/main/API.txt?t=${Date.now()}`);
         
         if (!res.ok) throw new Error(`GitHub responded with status ${res.status}`);
         
@@ -33,6 +26,8 @@ async function getapi() {
     }
 }
 
+setInterval(getapi, 60000);
+
 app.get("/", (req, res) => {
     res.send("Existing: /beautify");
 });
@@ -40,8 +35,6 @@ app.get("/", (req, res) => {
 app.post("/beautify", async (req, res) => {
     const code = req.body.code;
     if (!code) return res.status(400).send("No code provided");
-
-    await getapi();
 
     if (!url) {
         return res.status(500).json({ 
