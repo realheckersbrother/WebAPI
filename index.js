@@ -10,16 +10,18 @@ let url = "";
 
 async function getapi() {
     try {
-        const res = await fetch("https://raw.githubusercontent.com/realheckersbrother/WebAPI/main/API.txt");
+        const res = await fetch(`https://raw.githubusercontent.com/realheckersbrother/WebAPI/main/API.txt?t=${Date.now()}`);
+        
         if (!res.ok) throw new Error(`GitHub responded with status ${res.status}`);
         
-        url = (await res.text()).trim();
-        console.log(`[+] Target API URL successfully synchronized: ${url}`);
+        const textData = await res.text();
+        url = textData.trim();
+        
+        console.log(`Url: ${url}`);
     } catch (err) {
-        console.error("[-] Failed to load target URL from GitHub:", err.message);
+        console.error("Failed to get url:", err.message);
     }
 }
-
 app.get("/", (req, res) => {
     res.send("Existing: /beautify");
 });
