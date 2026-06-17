@@ -35,7 +35,7 @@ app.post("/beautify", async (req, res) => {
 });
 
 async function start() {
-    await loadUrl();
+    await getapi();
         
     app.listen(port, () => {
         console.log(`Luau API running on port ${port}`);
