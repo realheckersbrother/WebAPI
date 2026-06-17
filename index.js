@@ -1,14 +1,23 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const port = 3002;
 
+app.use(cors());
 app.use(express.json());
 
 let url = "";
 
 async function getapi() {
-    const res = await fetch("https://raw.githubusercontent.com/realheckersbrother/WebAPI/main/API.txt");
-    url = (await res.text()).trim();
+    try {
+        const res = await fetch("https://raw.githubusercontent.com/realheckersbrother/WebAPI/main/API.txt");
+        if (!res.ok) throw new Error(`GitHub responded with status ${res.status}`);
+        
+        url = (await res.text()).trim();
+        console.log(`[+] Target API URL successfully synchronized: ${url}`);
+    } catch (err) {
+        console.error("[-] Failed to load target URL from GitHub:", err.message);
+    }
 }
 
 app.get("/", (req, res) => {
@@ -17,7 +26,14 @@ app.get("/", (req, res) => {
 
 app.post("/beautify", async (req, res) => {
     const code = req.body.code;
-    if (!code) return res.status(400).send("No code");
+    if (!code) return res.status(400).send("No code provided");
+
+    if (!url) {
+        return res.status(500).json({ 
+            error: "Unknown error", 
+            details: "No url??" 
+        });
+    }
 
     try {
         const response = await fetch(`${url}/beautify`, {
@@ -36,9 +52,9 @@ app.post("/beautify", async (req, res) => {
 
 async function start() {
     await getapi();
-        
+    
     app.listen(port, () => {
-        console.log(`Luau API running on port ${port}`);
+        console.log(`Luau beautifier running on port ${port}`);
     });
 }
 
