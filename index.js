@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
     res.send("Existing: /beautify");
 });
 
-app.get("/update", (req, res) => {    
+app.get("/update", async (req, res) => {    
     await getapi();
     res.send("Updated");
 });
