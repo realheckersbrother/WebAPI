@@ -4,14 +4,7 @@ const port = 3002;
 
 app.use(express.json());
 
-let API_URL = "";
-
-async function loadUrl() {
-    const res = await fetch(
-        "https://raw.githubusercontent.com/realheckersbrother/WebAPI/main/API.txt"
-    );
-    API_URL = (await res.text()).trim();
-}
+let API_URL = "https://bean-engaging-fathers-lips.trycloudflare.com";
 
 app.get("/", (req, res) => {
     res.send("Existing: /beautify");
@@ -36,17 +29,6 @@ app.post("/beautify", async (req, res) => {
     }
 });
 
-async function startServer() {
-    try {
-        await loadUrl();
-        console.log(`[+] API URL loaded: ${API_URL}`);
-        
-        app.listen(port, () => {
-            console.log(`Luau API running on port ${port}`);
-        });
-    } catch (err) {
-        console.error("Failed to load initial API URL from GitHub:", err);
-    }
-}
-
-startServer();
+app.listen(port, () => {
+    console.log(`Luau API running on port ${port}`);
+});
