@@ -13,8 +13,6 @@ async function loadUrl() {
     API_URL = (await res.text()).trim();
 }
 
-loadUrl();
-
 app.get("/", (req, res) => {
     res.send("Existing: /beautify");
 });
@@ -38,6 +36,17 @@ app.post("/beautify", async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`Luau API running on port ${port}`);
-});
+async function startServer() {
+    try {
+        await loadUrl();
+        console.log(`[+] API URL loaded: ${API_URL}`);
+        
+        app.listen(port, () => {
+            console.log(`Luau API running on port ${port}`);
+        });
+    } catch (err) {
+        console.error("Failed to load initial API URL from GitHub:", err);
+    }
+}
+
+startServer();
