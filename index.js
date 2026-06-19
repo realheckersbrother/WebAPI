@@ -37,7 +37,7 @@ app.get("/update", async (req, res) => {
 
 app.post("/beautify", async (req, res) => {
     const code = req.body.code;
-    if (!code) return res.status(400).send("No code provided");
+    if (!code) return res.status(411).send("No code provided");
 
     if (!url) {
         return res.status(500).json({ 
@@ -57,7 +57,7 @@ app.post("/beautify", async (req, res) => {
         res.json(data);
 
     } catch (err) {
-        res.status(500).json({ error: "request failed", details: err.message });
+        res.status(422).json({ error: "request failed", details: err.message });
     }
 });
 
