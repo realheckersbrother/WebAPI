@@ -1,1 +1,1 @@
-https://hollywood-adaptive-glasgow-burke.trycloudflare.com
+https://api.trycloudflare.com
